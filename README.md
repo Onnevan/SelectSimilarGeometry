@@ -8,21 +8,23 @@ Select objects based on geometric similarity.
 
 Adjustable tolerance and similarity percentage.
 
-Can compare using local space (default) or world space coordinates.
+Optional world space comparison instead of local coordinates.
 
 Works even if objects have different transforms (location, rotation, scale).
 
-Includes a default shortcut: Ctrl + Shift + G.
+New: Vertex count filtering to skip unrelated objects and improve performance.
+
+New: Performance optimization — KD-Tree is now built once and reused for faster comparison in large scenes.
 
 HOW IT WORKS
 
-The add-on extracts the active object's vertex positions, builds a KD-tree from each candidate object's vertices, then counts how many vertices match within the tolerance. A similarity percentage is calculated using:
+The add-on extracts the active object's vertex coordinates and builds a single KD-Tree from them. Each candidate object's vertices are then checked against this tree to determine how many match within the tolerance. A similarity percentage is calculated using:
 
 matched_vertices / total_vertices_of_active_object
 
-If the value is equal or above the similarity threshold, the object is selected.
+If the similarity meets or exceeds the threshold, the object is selected.
 
-Vertex order does not matter, matching is based on spatial distance.
+Vertex index order is not required to match — all comparisons are spatial.
 
 INSTALLATION
 
@@ -36,34 +38,36 @@ Select the file.
 
 Enable the add-on.
 
-The operator will appear in: 3D Viewport > Select > Select Similar Geometry.
-
-Shortcut: Ctrl + Shift + G.
+The operator will appear under: 3D Viewport > Select > Select Similar Geometry.
 
 USAGE
 
 Select a mesh to use as reference.
 
-Run the operator from the menu or shortcut.
+Run the operator from the menu.
 
 Adjust the parameters:
 
-Tolerance: distance threshold used when matching vertices.
-Minimum Percentage: minimum similarity required (0 to 1).
-Use World Space: if enabled, compares transformed coordinates instead of local mesh coordinates.
+Tolerance: distance threshold for matching vertices.
+
+Minimum Percentage: minimum required similarity (0 to 1).
+
+Vertex Count Tolerance: allowed deviation in vertex count to consider two objects comparable.
+
+Use World Space: compare transformed vertex coordinates instead of local coordinates.
 
 RECOMMENDED SETTINGS
 
-Detect duplicates or instanced geometry → Use World Space: Off.
-Detect the same mesh that has been moved or scaled → Use World Space: Off.
-Detect modified copies or variants → Lower the similarity threshold.
-Compare final scene placement and alignment → Use World Space: On.
+Detect duplicates or instanced geometry → Use World Space: Off
+Detect the same mesh moved or scaled → Use World Space: Off
+Detect modified copies or mesh variations → Lower the similarity threshold
+Compare final aligned scene assets → Use World Space: On
 
 COMPATIBILITY
 
 Blender 5.0 or newer.
 
-Works as both a standard add-on and as a Blender Extension.
+Works as a standard add-on and as a Blender Extension.
 
 LICENSE
 
@@ -71,7 +75,7 @@ GPL-3.0-or-later
 
 CONTRIBUTING
 
-Suggestions, improvements, feature ideas, and pull requests are welcome. Useful potential additions include normal-based comparison, topology-aware detection, and preset profiles.
+Suggestions, improvements, and pull requests are welcome. Potential future improvements may include topology-aware matching, normal comparison, or preset profiles.
 
 AUTHOR
 
